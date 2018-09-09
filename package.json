@@ -1,22 +1,33 @@
 {
   "name": "todo-backend",
-  "version": "0.0.0",
-  "private": true,
+  "version": "1.0.0",
+  "main": "server/server.js",
+  "engines": {
+    "node": ">=4"
+  },
   "scripts": {
-    "start": "node ./bin/www"
+    "lint": "eslint .",
+    "start": "node .",
+    "posttest": "npm run lint"
   },
   "dependencies": {
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.6.9",
-    "express": "~4.16.0",
-    "http-errors": "~1.6.2",
-    "morgan": "~1.9.0",
-    "pug": "2.0.0-beta11",
-    "sequelize": "^4.38.0",
-    "sequelize-auto-migrations": "^1.0.2",
-    "sqlite3": "^4.0.2"
+    "compression": "^1.0.3",
+    "cors": "^2.5.2",
+    "helmet": "^3.10.0",
+    "loopback-boot": "^2.6.5",
+    "serve-favicon": "^2.0.1",
+    "strong-error-handler": "^3.0.0",
+    "loopback-component-explorer": "^6.0.0",
+    "loopback": "^3.19.0"
   },
   "devDependencies": {
-    "babel-preset-env": "^1.7.0"
-  }
+    "eslint": "^3.17.1",
+    "eslint-config-loopback": "^8.0.0"
+  },
+  "repository": {
+    "type": "",
+    "url": ""
+  },
+  "license": "UNLICENSED",
+  "description": "todo-backend"
 }
