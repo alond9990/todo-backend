@@ -36,11 +36,11 @@
     "public": false
   },
   "Task": {
-    "dataSource": "db",
+    "dataSource": "main",
     "public": true
   },
   "TaskList": {
-    "dataSource": "db",
+    "dataSource": "main",
     "public": true
   }
 }

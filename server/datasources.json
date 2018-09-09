@@ -2,5 +2,15 @@
   "db": {
     "name": "db",
     "connector": "memory"
+  },
+  "main": {
+    "host": "127.0.0.1",
+    "port": 3306,
+    "url": "mysql:/root:Password1@127.0.0.1:3306",
+    "database": "todo",
+    "password": "Password1",
+    "name": "main",
+    "user": "root",
+    "connector": "mysql"
   }
 }
