@@ -34,5 +34,13 @@
   "Role": {
     "dataSource": "db",
     "public": false
+  },
+  "Task": {
+    "dataSource": "db",
+    "public": true
+  },
+  "TaskList": {
+    "dataSource": "db",
+    "public": true
   }
 }
