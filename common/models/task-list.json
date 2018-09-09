@@ -12,8 +12,14 @@
       "required": true
     }
   },
+  "relations": {
+    "tasks": {
+      "type": "hasMany",
+      "model": "Task",
+      "foreignKey": "taskId"
+    }
+  },
   "validations": [],
-  "relations": {},
   "acls": [],
   "methods": {}
 }

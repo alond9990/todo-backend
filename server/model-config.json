@@ -36,11 +36,11 @@
     "public": false
   },
   "Task": {
-    "dataSource": "main",
+    "dataSource": "sqlDB",
     "public": true
   },
   "TaskList": {
-    "dataSource": "main",
+    "dataSource": "sqlDB",
     "public": true
   }
 }

@@ -3,13 +3,12 @@
     "name": "db",
     "connector": "memory"
   },
-  "main": {
-    "host": "127.0.0.1",
+  "sqlDB": {
+    "host": "localhost",
     "port": 3306,
-    "url": "mysql:/root:Password1@127.0.0.1:3306",
     "database": "todo",
     "password": "Password1",
-    "name": "main",
+    "name": "sqlDB",
     "user": "root",
     "connector": "mysql"
   }
