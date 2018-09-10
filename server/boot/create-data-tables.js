@@ -7,32 +7,41 @@
 //  console.log("Performed automigration.");
 //};
 
+var path = require('path');
 
-module.exports = function(app) {
-  app.dataSources.db.automigrate('TaskList', function(err) {
-    if (err) throw err;
+var app = require(path.resolve(__dirname, '../server'));
+var ds = app.datasources.db;
+ds.autoupdate(function(err) {
+  if (err) throw err;
+  ds.disconnect();
+});
 
-    app.models.TaskList.create([{
-      name: 'TODO List 1'
-    }], function(err, TaskList) {
-      if (err) throw err;
-
-      console.log('Models created: \n', TaskList);
-    });
-  });
-
-  app.dataSources.db.automigrate('Task', function(err) {
-    if (err) throw err;
-
-    app.models.Task.create([{
-      title: 'Task 1'
-    }, {
-      title: 'Task 2'
-    }], function(err, Task) {
-      if (err) throw err;
-
-      console.log('Models created: \n', Task);
-    });
-  });
-
-};
+//
+//module.exports = function(app) {
+//  app.dataSources.db.automigrate('TaskList', function(err) {
+//    if (err) throw err;
+//
+//    app.models.TaskList.create([{
+//      name: 'TODO List 1'
+//    }], function(err, TaskList) {
+//      if (err) throw err;
+//
+//      console.log('Models created: \n', TaskList);
+//    });
+//  });
+//
+//  app.dataSources.db.automigrate('Task', function(err) {
+//    if (err) throw err;
+//
+//    app.models.Task.create([{
+//      title: 'Task 1'
+//    }, {
+//      title: 'Task 2'
+//    }], function(err, Task) {
+//      if (err) throw err;
+//
+//      console.log('Models created: \n', Task);
+//    });
+//  });
+//
+//};

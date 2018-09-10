@@ -10,6 +10,11 @@
     "title": {
       "type": "string",
       "required": true
+    },
+    "done": {
+      "type": "boolean",
+      "default": false,
+      "required": true
     }
   },
   "validations": [],
