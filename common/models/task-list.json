@@ -12,6 +12,7 @@
       "required": true
     }
   },
+  "validations": [],
   "relations": {
     "tasks": {
       "type": "hasMany",
@@ -19,7 +20,19 @@
       "foreignKey": "taskId"
     }
   },
-  "validations": [],
-  "acls": [],
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
+    }
+  ],
   "methods": {}
 }
