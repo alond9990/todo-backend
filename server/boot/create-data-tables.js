@@ -3,7 +3,7 @@
  */
 
 module.exports = function(app) {
-  app.dataSources.sqlDB.automigrate('TaskList', function(err) {
+  app.dataSources.db.automigrate('TaskList', function(err) {
     if (err) throw err;
 
     app.models.TaskList.create([{
@@ -15,7 +15,7 @@ module.exports = function(app) {
     });
   });
 
-  app.dataSources.sqlDB.automigrate('Task', function(err) {
+  app.dataSources.db.automigrate('Task', function(err) {
     if (err) throw err;
 
     app.models.Task.create([{

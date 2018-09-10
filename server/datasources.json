@@ -1,14 +1,10 @@
 {
   "db": {
-    "name": "db",
-    "connector": "memory"
-  },
-  "sqlDB": {
     "host": "localhost",
     "port": 3306,
     "database": "todo",
     "password": "Password1",
-    "name": "sqlDB",
+    "name": "db",
     "user": "root",
     "connector": "mysql"
   }
