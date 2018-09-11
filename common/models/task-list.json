@@ -18,6 +18,11 @@
       "type": "hasMany",
       "model": "Task",
       "foreignKey": "taskId"
+    },
+    "authorized_group": {
+      "type": "belongsTo",
+      "model": "Group",
+      "foreignKey": ""
     }
   },
   "acls": [

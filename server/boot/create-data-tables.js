@@ -2,18 +2,12 @@
  * Created by alond9990 on 09/09/2018.
  */
 
-//module.exports = function (app) {
-//  app.dataSources.db.automigrate();
-//  console.log("Performed automigration.");
-//};
-
 var path = require('path');
 
 var app = require(path.resolve(__dirname, '../server'));
 var ds = app.datasources.db;
 ds.autoupdate(function(err) {
   if (err) throw err;
-  ds.disconnect();
 });
 
 //
