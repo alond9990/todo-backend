@@ -10,11 +10,6 @@
     "name": {
       "type": "string",
       "required": true
-    },
-    "authorized_group": {
-      "type": "integer",
-      "required": true,
-      "default": 0
     }
   },
   "validations": [],
@@ -24,10 +19,10 @@
       "model": "Task",
       "foreignKey": "taskId"
     },
-    "authorized_group": {
-      "type": "belongsTo",
-      "model": "Group",
-      "foreignKey": "authorized_group"
+    "users": {
+      "type": "hasAndBelongsToMany",
+      "model": "User",
+      "throughTable": "ListUsers"
     }
   },
   "acls": [

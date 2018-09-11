@@ -43,9 +43,5 @@
   "TaskList": {
     "dataSource": "db",
     "public": true
-  },
-  "Group": {
-    "dataSource": "db",
-    "public": true
   }
 }
