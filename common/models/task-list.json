@@ -10,6 +10,11 @@
     "name": {
       "type": "string",
       "required": true
+    },
+    "authorized_group": {
+      "type": "integer",
+      "required": true,
+      "default": 0
     }
   },
   "validations": [],
@@ -22,7 +27,7 @@
     "authorized_group": {
       "type": "belongsTo",
       "model": "Group",
-      "foreignKey": ""
+      "foreignKey": "authorized_group"
     }
   },
   "acls": [
