@@ -1,0 +1,38 @@
+{
+  "name": "Group",
+  "plural": "groups",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+
+  },
+  "validations": [],
+  "relations": {
+    "users": {
+      "type": "hasAndBelongsToMany",
+      "model": "User",
+      "throughTable": "GroupUsers"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
+    }
+  ],
+  "methods": {},
+  "scope": {
+    "include":"users"
+  }
+}
