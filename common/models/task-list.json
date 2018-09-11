@@ -39,5 +39,8 @@
       "permission": "DENY"
     }
   ],
-  "methods": {}
+  "methods": {},
+  "scope": {
+    "include":"tasks"
+  }
 }
