@@ -18,5 +18,8 @@
     }
   },
   "acls": [],
-  "methods": {}
+  "methods": {},
+  "scope": {
+    "include":"users"
+  }
 }
