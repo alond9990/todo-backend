@@ -3,37 +3,31 @@
  */
 
 const pool = require('./mysql_connection');
+const task = require('./tasks');
 
 function TaskList() {
 
     const taskListTable = 'tasklist';
 
-    function serializeListWithTasks(results) {
-        if (results.length > 0) {
-            let taskList = {
-                "id": results[0].id,
-                "name": results[0].name,
-                "tasks": []
-            };
-            results.forEach(function(result) {
-                if (result.task_id) {
-                    taskList.tasks.push({"id": result.task_id, "title": result.title, "done": !!result.done});
-                }
-            });
-            return taskList;
-        }
+    // add tasks to list object
+    async function _setListTask (task_list) {
+        task_list.tasks = await task.getTasksByTaskListId(task_list.id);
+        return task_list;
     }
 
     // get all task lists
     this.getTaskLists = async function () {
-        return await pool.query("SELECT * FROM " + taskListTable);
+        let results = await pool.query("SELECT * FROM " + taskListTable);
+        const promises = results.map(_setListTask);
+        await Promise.all(promises);
+        return results
     };
 
     // get specific task list
     this.getTaskListById = async function (taskListId) {
-        let results = await pool.query("SELECT TL.id AS id, TL.name AS name,T.title AS title ,T.ID AS task_id, T.done AS done " +
-            "FROM " + taskListTable + " TL LEFT JOIN task T ON TL.id = T.taskListId WHERE TL.id = '" + taskListId + "'");
-        return serializeListWithTasks(results);
+        let results = await pool.query("SELECT * FROM " + taskListTable + " WHERE id = '" + taskListId + "'");
+        let task_list = _setListTask(results[0]);
+        return task_list;
 
     };
 

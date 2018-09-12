@@ -39,6 +39,13 @@ function Task() {
             });
     };
 
+    // get tasks that belongs to a specific task list
+    this.getTasksByTaskListId = async function (taskListId) {
+        let results = await pool.query("SELECT * FROM " + taskTable + " WHERE taskListId = ?", taskListId);
+        return results;
+
+    };
+
 }
 
 module.exports = new Task();
