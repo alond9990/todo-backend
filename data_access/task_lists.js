@@ -8,6 +8,22 @@ function TaskList() {
 
     const taskListTable = 'tasklist';
 
+    function serializeListWithTasks(results) {
+        if (results.length > 0) {
+            let taskList = {
+                "id": results[0].id,
+                "name": results[0].name,
+                "tasks": []
+            };
+            results.forEach(function(result) {
+                if (result.task_id) {
+                    taskList.tasks.push({"id": result.task_id, "title": result.title, "done": !!result.done});
+                }
+            });
+            return taskList;
+        }
+    }
+
     // get all task lists
     this.getTaskLists = async function () {
         return await pool.query("SELECT * FROM " + taskListTable);
@@ -15,8 +31,9 @@ function TaskList() {
 
     // get specific task list
     this.getTaskListById = async function (taskListId) {
-        let results = await pool.query("SELECT * FROM " + taskListTable + " WHERE id = '" + taskListId + "'");
-        return results[0];
+        let results = await pool.query("SELECT TL.id AS id, TL.name AS name,T.title AS title ,T.ID AS task_id, T.done AS done " +
+            "FROM " + taskListTable + " TL LEFT JOIN task T ON TL.id = T.taskListId WHERE TL.id = '" + taskListId + "'");
+        return serializeListWithTasks(results);
 
     };
 

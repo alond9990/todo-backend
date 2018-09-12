@@ -16,7 +16,7 @@ router.post('/login', async function(req, res, next) {
             if (user) {
                 res.send(user);
             } else {
-                res.send({"error": "No user matching credentials."});
+                res.status(404).send({"error": "No user matching credentials."});
             }
         });
 });
