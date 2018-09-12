@@ -3,7 +3,9 @@
  */
 
 // establish Mysql Connection
-var mysql = require('mysql');
+const mysql = require('mysql');
+const config = require('../config');
+const dbConfig = config.getDatabaseConfig();
 
 function MySQLConnect() {
 
@@ -12,11 +14,11 @@ function MySQLConnect() {
     // Init MySql Connection Pool
     this.init = function() {
         this.pool = mysql.createPool({
-            connectionLimit: 10,
-            host     : 'localhost',
-            user     : 'root',
-            password : 'Password1',
-            database: 'todo'
+            host     : process.env.MYSQL_HOST || dbConfig.host,
+            user     : process.env.MYSQL_USER || dbConfig.user,
+            password : process.env.MYSQL_PASSWORD || dbConfig.password,
+            database: dbConfig.database,
+            connectionLimit: dbConfig.connectionLimit
         });
     };
 
