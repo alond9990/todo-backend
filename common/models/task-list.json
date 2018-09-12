@@ -42,5 +42,8 @@
   "methods": {},
   "scope": {
     "include":"tasks"
+  },
+  "mixins": {
+    "Owner": true
   }
 }
