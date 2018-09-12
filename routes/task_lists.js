@@ -4,13 +4,15 @@ const taskLists = require('../data_access/task_lists');
 
 /* GET task lists listings */
 router.get('/', async function(req, res, next) {
-    return await taskLists.getTaskLists();
+    let task_lists = await taskLists.getTaskLists();
+    res.send(task_lists);
 });
 
 /* GET specific task list listing */
 router.get('/:id', async function(req, res, next) {
     let taskListId = req.params.id;
-    return await taskLists.getTaskListById(taskListId);
+    let task_list = await taskLists.getTaskListById(taskListId);
+    res.send(task_list);
 });
 
 /* CREATE task list listing. */

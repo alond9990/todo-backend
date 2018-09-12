@@ -15,7 +15,7 @@ function TaskList() {
 
     // get specific task list
     this.getTaskListById = async function (taskListId) {
-        let results = await pool.query("SELECT * FROM " + taskListTable + " WHERE id = '" + taskListId);
+        let results = await pool.query("SELECT * FROM " + taskListTable + " WHERE id = '" + taskListId + "'");
         return results[0];
 
     };
