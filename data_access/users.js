@@ -2,22 +2,18 @@
  * Created by alond9990 on 12/09/2018.
  */
 
-var connection = require('./mysql_connection');
+const MySQLConnect = require('./mysql_connection');
 
 function User() {
 
+    this.db = new MySQLConnect();
+
     // get specific user by credentials
-    this.getUserByCredentials = function (username, password) {
-        // initialize database connection
-        connection.init();
-        connection.acquire(function (err, con) {
-            con.query("SELECT * FROM user WHERE username = '" + username + "' AND password = '" + password + "'",
-                function (err, result) {
-                    con.release();
-                    console.log(result);
-                    return result;
-                });
-        });
+    this.getUserByCredentials = async function (username, password) {
+        let users = await this.db.query("SELECT * FROM user WHERE username = '" + username + "' AND password = '" + password + "'");
+        let user = users[0];
+        delete  user['password'];
+        return user;
     };
 
 }

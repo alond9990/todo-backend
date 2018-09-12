@@ -2,17 +2,18 @@
  * Created by alond9990 on 12/09/2018.
  */
 
-// establish Mysql Connection
-const mysql = require('mysql');
 const config = require('../config');
 const dbConfig = config.getDatabaseConfig();
 
-function MySQLConnect() {
+const mysql = require('mysql');
+const Promise = require("bluebird");
 
-    this.pool = null;
+Promise.promisifyAll(mysql);
+Promise.promisifyAll(require("mysql/lib/Connection").prototype);
+Promise.promisifyAll(require("mysql/lib/Pool").prototype);
 
-    // Init MySql Connection Pool
-    this.init = function() {
+module.exports = class MySQLConnect {
+    constructor() {
         this.pool = mysql.createPool({
             host     : process.env.MYSQL_HOST || dbConfig.host,
             user     : process.env.MYSQL_USER || dbConfig.user,
@@ -20,17 +21,28 @@ function MySQLConnect() {
             database: dbConfig.database,
             connectionLimit: dbConfig.connectionLimit
         });
-    };
+    }
 
-    // acquire connection and execute query on callbacks
-    this.acquire = function(callback) {
-
-        this.pool.getConnection(function(err, connection) {
-            callback(err, connection);
+    getSqlConnection() {
+        return this.pool.getConnectionAsync().disposer(connection => {
+            connection.release();
         });
+    }
 
-    };
+    query(query_string, params) {
+        return Promise.using(this.getSqlConnection(), connection => {
+            // eslint-disable-next-line no-unused-vars
+            return connection.queryAsync(query_string, params).then((rows, cols) => {
+                if (rows.length) {
+                    return rows;
+                }
+                return null;
+            });
+        });
+    }
 
-}
+    shutDown() {
+        return this.pool.endAsync();
+    }
 
-module.exports = new MySQLConnect();
+};
