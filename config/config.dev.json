@@ -2,7 +2,7 @@
   "database": {
     "host": "localhost",
     "user": "root",
-    "password": "Password",
+    "password": "Password1",
     "connectionLimit": 10,
     "database": "todo",
     "debug": false
