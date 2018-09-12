@@ -24,8 +24,8 @@ router.post('/login', async function(req, res, next) {
 router.post('/register', async function(req, res, next) {
     let username = req.body.username;
     let password = req.body.password;
-    let resonse = await user.createNewUser(username, password);
-    res.send(resonse);
+    let response = await user.createNewUser(username, password);
+    res.send(response);
 });
 
 module.exports = router;

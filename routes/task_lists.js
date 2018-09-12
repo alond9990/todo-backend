@@ -1,14 +1,23 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const taskLists = require('../data_access/task_lists');
 
-/* GET task lists listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+/* GET task lists listings */
+router.get('/', async function(req, res, next) {
+    return await taskLists.getTaskLists();
 });
 
-/* CREATE task lists listing. */
-router.post('/', function(req, res, next) {
-  res.send('respond with a resource');
+/* GET specific task list listing */
+router.get('/:id', async function(req, res, next) {
+    let taskListId = req.params.id;
+    return await taskLists.getTaskListById(taskListId);
+});
+
+/* CREATE task list listing. */
+router.post('/', async function(req, res, next) {
+    let name = req.body.name;
+    let response = await taskLists.createTaskList(name);
+    res.send(response);
 });
 
 module.exports = router;
