@@ -13,4 +13,10 @@ router.post('/login', async function(req, res, next) {
     res.send(a);
 });
 
+/* REGISTER endpoint */
+router.post('/register', async function(req, res, next) {
+    var a = await user.createNewUser('alond99990', '123456');
+    res.send(a);
+});
+
 module.exports = router;

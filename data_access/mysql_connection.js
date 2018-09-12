@@ -6,43 +6,37 @@ const config = require('../config');
 const dbConfig = config.getDatabaseConfig();
 
 const mysql = require('mysql');
-const Promise = require("bluebird");
+const util = require("util");
 
-Promise.promisifyAll(mysql);
-Promise.promisifyAll(require("mysql/lib/Connection").prototype);
-Promise.promisifyAll(require("mysql/lib/Pool").prototype);
 
-module.exports = class MySQLConnect {
-    constructor() {
-        this.pool = mysql.createPool({
-            host     : process.env.MYSQL_HOST || dbConfig.host,
-            user     : process.env.MYSQL_USER || dbConfig.user,
-            password : process.env.MYSQL_PASSWORD || dbConfig.password,
-            database: dbConfig.database,
-            connectionLimit: dbConfig.connectionLimit
-        });
+const pool = mysql.createPool({
+    host     : process.env.MYSQL_HOST || dbConfig.host,
+    user     : process.env.MYSQL_USER || dbConfig.user,
+    password : process.env.MYSQL_PASSWORD || dbConfig.password,
+    database: dbConfig.database,
+    connectionLimit: dbConfig.connectionLimit
+});
+
+
+pool.getConnection((err, connection) => {
+    if (err) {
+        if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+            console.error('Database connection was closed.')
+        }
+        else if (err.code === 'ER_CON_COUNT_ERROR') {
+            console.error('Database has too many connections.')
+        }
+        else if (err.code === 'ECONNREFUSED') {
+            console.error('Database connection was refused.')
+        }
+        else {
+            console.log(err);
+        }
     }
+    if (connection) connection.release();
+});
 
-    getSqlConnection() {
-        return this.pool.getConnectionAsync().disposer(connection => {
-            connection.release();
-        });
-    }
+// Promisify for async/await.
+pool.query = util.promisify(pool.query);
 
-    query(query_string, params) {
-        return Promise.using(this.getSqlConnection(), connection => {
-            // eslint-disable-next-line no-unused-vars
-            return connection.queryAsync(query_string, params).then((rows, cols) => {
-                if (rows.length) {
-                    return rows;
-                }
-                return null;
-            });
-        });
-    }
-
-    shutDown() {
-        return this.pool.endAsync();
-    }
-
-};
+module.exports = pool;
