@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const task = require('../data_access/task');
+const task = require('../data_access/tasks');
 
 /* CREATE task listing. */
 router.post('/', async function(req, res, next) {
