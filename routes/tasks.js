@@ -1,14 +1,20 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const task = require('../data_access/task');
 
-/* CREATE tasks listing. */
-router.post('/', function(req, res, next) {
-  res.send('respond with a resource');
+/* CREATE task listing. */
+router.post('/', async function(req, res, next) {
+    let title = req.body.title;
+    let taskListId = req.body.taskListId;
+    let response = await task.createTask(title, taskListId);
+    res.send(response);
 });
 
 /* Mark task as done */
-router.put('/done', function(req, res, next) {
-  res.send('respond with a resource');
+router.put('/done', async function(req, res, next) {
+    let taskId = req.body.taskId;
+    let response = await task.markTaskAsDone(taskId);
+    res.send(response);
 });
 
 module.exports = router;
