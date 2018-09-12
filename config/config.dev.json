@@ -1,0 +1,10 @@
+{
+  "database": {
+    "host": "localhost",
+    "user": "root",
+    "password": "Password",
+    "connectionLimit": 10,
+    "database": "todo",
+    "debug": false
+  }
+}
