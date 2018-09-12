@@ -11,13 +11,14 @@ router.get('/', function(req, res, next) {
 router.post('/login', async function(req, res, next) {
     let username = req.body.username;
     let password = req.body.password;
-    let user = await user.getUserByCredentials(username, password);
-    if (user) {
-        res.send(user);
-    } else {
-        res.send({"error": "No user matching credentials."});
-    }
-
+    await user.getUserByCredentials(username, password)
+        .then(function(user) {
+            if (user) {
+                res.send(user);
+            } else {
+                res.send({"error": "No user matching credentials."});
+            }
+        });
 });
 
 /* REGISTER endpoint */
