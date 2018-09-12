@@ -22,14 +22,12 @@ module.exports = function(Model, options) {
 
     // this part is tricky because you may need to add
     // the userId filter to an existing where-clause
-    User.findOne({where:{id:userId}},function(err, user) {
-      console.log(user);
-      //user.lists(function (err, lists){
-      //  if (err) return cb(err);
-      //  console.log(lists);
-      //  return cb(null,books);
-      //});
-    });
+    //User.findOne({where:{id:userId}},function(err, user) {
+    //  user.lists(function (err, lists){
+    //    if (err) return cb(err);
+    //    return cb(null,lists);
+    //  });
+    //});
 
     //ctx.query = ctx.query || {};
     //if (ctx.query.where) {
