@@ -9,14 +9,23 @@ router.get('/', function(req, res, next) {
 
 /* LOGIN endpoint */
 router.post('/login', async function(req, res, next) {
-    var a = await user.getUserByCredentials('alond9990', '123456');
-    res.send(a);
+    let username = req.body.username;
+    let password = req.body.password;
+    let user = await user.getUserByCredentials(username, password);
+    if (user) {
+        res.send(user);
+    } else {
+        res.send({"error": "No user matching credentials."});
+    }
+
 });
 
 /* REGISTER endpoint */
 router.post('/register', async function(req, res, next) {
-    var a = await user.createNewUser('alond99990', '123456');
-    res.send(a);
+    let username = req.body.username;
+    let password = req.body.password;
+    let resonse = await user.createNewUser(username, password);
+    res.send(resonse);
 });
 
 module.exports = router;
