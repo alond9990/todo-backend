@@ -11,8 +11,8 @@ router.post('/', async function(req, res, next) {
 });
 
 /* Mark task as done */
-router.put('/done', async function(req, res, next) {
-    let taskId = req.body.taskId;
+router.put('/:id/done', async function(req, res, next) {
+    let taskId = req.params.id;
     let response = await task.markTaskAsDone(taskId);
     res.send(response);
 });
