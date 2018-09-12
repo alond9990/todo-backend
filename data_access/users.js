@@ -10,7 +10,7 @@ function User() {
 
     // get specific user by credentials
     this.getUserByCredentials = async function (username, password) {
-        let results = await pool.query("SELECT * FROM " + userTable + " WHERE username = '" + username + "' AND password = '" + password + "'");
+        let results = await pool.query("SELECT * FROM " + userTable + " WHERE username = ? AND password = ?", [username, password]);
         if (results.length > 0) {
             let user = results[0];
             delete  user['password'];
@@ -22,7 +22,7 @@ function User() {
 
     // create new user
     this.createNewUser = async function (username, password) {
-        return await pool.query("INSERT INTO " + userTable + " (username, password) VALUES ('" + username + "', '" + password + "')")
+        return await pool.query("INSERT INTO " + userTable + " SET ?", {"username": username, "password": password})
             .then(function(res) {
                 return {
                     "id": res.insertId,
