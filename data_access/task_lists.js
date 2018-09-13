@@ -15,9 +15,13 @@ function TaskList() {
         return task_list;
     }
 
-    // get all task lists
-    this.getTaskLists = async function () {
-        let results = await pool.query("SELECT * FROM " + taskListTable);
+    // get all task lists for a specific user
+    this.getTaskListsByUser = async function (userId) {
+        let results = await pool.query("Select T.id, T.name " +
+            "From user U " +
+            "Inner Join user_tasklist UT On UT.userID = U.id " +
+            "Inner Join tasklist T On T.id = UT.taskListId " +
+            "Where U.id = ?", userId);
         const promises = results.map(_setListTask);
         await Promise.all(promises);
         return results

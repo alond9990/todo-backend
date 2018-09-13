@@ -4,7 +4,7 @@ const taskLists = require('../data_access/task_lists');
 
 /* GET task lists listings */
 router.get('/', async function(req, res, next) {
-    let task_lists = await taskLists.getTaskLists();
+    let task_lists = await taskLists.getTaskListsByUser(1);
     res.send(task_lists);
 });
 
