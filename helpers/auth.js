@@ -7,10 +7,10 @@ module.exports.unauthorizedMiddleware = function (err, req, res, next) {
     }
 };
 
-module.exports.generateToken = function(id, username) {
+module.exports.generateToken = function(user) {
     const JWTToken = jwt.sign({
-            username: username,
-            id: id
+            username: user.username,
+            id: user.id
         },
         config.getJWTSecret(),
         {

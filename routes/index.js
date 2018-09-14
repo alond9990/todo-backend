@@ -3,7 +3,7 @@ const router = express.Router();
 const userDAL = require('../data_access/users');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const config = require('../config');
+const auth_helpers = require('../helpers/auth');
 
 /* GET home page */
 router.get('/', function(req, res, next) {
@@ -21,6 +21,7 @@ router.post('/login', async function(req, res, next) {
                 bcrypt.compare(password, user.password, function(err, result) {
                     if (result) {
                         delete user.password;
+                        user['token'] = auth_helpers.generateToken(user);
                         res.send(user);
                     }
                     else {
