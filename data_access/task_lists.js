@@ -36,12 +36,13 @@ function TaskList() {
     };
 
     // create new task list
-    this.createTaskList = async function (name) {
-        return await pool.query("INSERT INTO " + taskListTable + " (name) VALUES ('" + name + "')")
+    this.createTaskList = async function (name, adminUserId) {
+        return await pool.query("INSERT INTO " + taskListTable + " SET ?", {"name": name, "adminUserId": adminUserId})
             .then(function(res) {
                 return {
                     "id": res.insertId,
-                    "name": name
+                    "name": name,
+                    "adminUserId": adminUserId
                 }
             })
             .catch(function(err) {

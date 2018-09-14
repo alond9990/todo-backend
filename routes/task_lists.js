@@ -18,7 +18,8 @@ router.get('/:id', async function(req, res, next) {
 /* CREATE task list listing */
 router.post('/', async function(req, res, next) {
     let name = req.body.name;
-    let response = await taskLists.createTaskList(name);
+    let adminUserId = 1; //todo: get user from token
+    let response = await taskLists.createTaskList(name, adminUserId);
     res.send(response);
 });
 
