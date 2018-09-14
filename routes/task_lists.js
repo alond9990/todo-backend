@@ -4,7 +4,8 @@ const taskLists = require('../data_access/task_lists');
 
 /* GET task lists listings */
 router.get('/', async function(req, res, next) {
-    let task_lists = await taskLists.getTaskListsByUser(1);
+    let user_id = req.user.id;
+    let task_lists = await taskLists.getTaskListsByUser(user_id);
     res.send(task_lists);
 });
 
@@ -18,7 +19,7 @@ router.get('/:id', async function(req, res, next) {
 /* CREATE task list listing */
 router.post('/', async function(req, res, next) {
     let name = req.body.name;
-    let adminUserId = 1; //todo: get user from token
+    let adminUserId = req.user.id;
     let response = await taskLists.createTaskList(name, adminUserId);
     res.send(response);
 });
