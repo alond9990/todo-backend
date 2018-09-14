@@ -17,11 +17,13 @@ router.post('/login', async function(req, res, next) {
             let error = {"error": "No user matching credentials."};
             if (user) {
                 bcrypt.compare(password, user.password, function(err, result) {
-                   if (err) {
-                       res.status(401).send(error);
-                   }
-                   delete user.password;
-                    res.send(user);
+                    if (result) {
+                        delete user.password;
+                        res.send(user);
+                    }
+                    else {
+                        res.status(401).send(error);
+                    }
                 });
             }
             else {
