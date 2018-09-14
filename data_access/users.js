@@ -9,11 +9,10 @@ function User() {
     const userTable = 'user';
 
     // get specific user by credentials
-    this.getUserByCredentials = async function (username, password) {
-        let results = await pool.query("SELECT * FROM " + userTable + " WHERE username = ? AND password = ?", [username, password]);
+    this.getUserByUsername = async function (username) {
+        let results = await pool.query("SELECT * FROM " + userTable + " WHERE username = ?", username);
         if (results.length > 0) {
             let user = results[0];
-            delete  user['password'];
             return user;
         } else {
             return null;

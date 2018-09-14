@@ -12,13 +12,16 @@ router.get('/', function(req, res, next) {
 router.post('/login', async function(req, res, next) {
     let username = req.body.username;
     let password = req.body.password;
-    await user.getUserByCredentials(username, password)
+    await user.getUserByUsername(username)
         .then(function(user) {
             if (user) {
-                res.send(user);
-            } else {
-                res.status(401).send({"error": "No user matching credentials."});
+                bcrypt.compare(password, user.password, function(err, result) {
+                   if (result) {
+                       res.send(user);
+                   }
+                });
             }
+            res.status(401).send({"error": "No user matching credentials."});
         });
 });
 
