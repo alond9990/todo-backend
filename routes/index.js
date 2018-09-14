@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const userDAL = require('../data_access/users');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const config = require('../config');
 
 /* GET home page */
 router.get('/', function(req, res, next) {

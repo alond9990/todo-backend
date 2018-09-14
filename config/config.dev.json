@@ -6,5 +6,6 @@
     "connectionLimit": 10,
     "database": "todo",
     "debug": false
-  }
+  },
+  "JWT_SECRET": "111571F4B3DE83626B946E8BC"
 }

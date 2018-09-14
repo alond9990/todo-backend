@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 const jwt = require('express-jwt');
+const auth_helpers = require('helpers/auth');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -21,12 +22,8 @@ app.set('view engine', 'pug');
 app.use(cors());
 
 // configure jwt auth middleware
-app.use(jwt({ secret: '111571F4B3DE83626B946E8BC'}).unless({path: ['/register', '/login']}));
-app.use(function (err, req, res, next) {
-    if (err.name === 'UnauthorizedError') {
-        res.status(401).send({"error": 'Token is not provided or invalid'});
-    }
-});
+app.use(jwt({ secret: config.getJWTSecret()}).unless({path: ['/register', '/login']}));
+app.use(auth_helpers.unauthorizedMiddleware);
 
 app.use(logger('dev'));
 app.use(express.json());
