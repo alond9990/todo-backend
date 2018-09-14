@@ -9,5 +9,5 @@ module.exports.getDatabaseConfig = function () {
 };
 
 module.exports.getJWTSecret = function () {
-    return configs.database;
+    return configs.JWT_SECRET;
 };
