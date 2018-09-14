@@ -30,9 +30,7 @@ function User() {
                 }
             })
             .catch(function(err) {
-                return {
-                    "error": err.sqlMessage
-                }
+                throw new Error(err.sqlMessage);
             });
     };
 
