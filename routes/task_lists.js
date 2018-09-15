@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const taskLists = require('../data_access/task_lists');
 const usersDAL = require('../data_access/users');
+const _ = require('lodash');
 
 /* GET task lists listings */
 router.get('/', async function(req, res, next) {
@@ -33,18 +34,16 @@ router.put('/:id/users', async function(req, res, next) {
     let taskListId = req.params.id;
     // get task list's admins
     let admins = await usersDAL.getUsersIdsByTaskList(taskListId, true);
-    // organize task list new users
-    let users = req.body.user_ids.map(function(userId) {
-        return {
-            "id": userId,
-            "admin": admins.indexOf(userId) !== -1
-        }
-    });
-    // delete all task list users
-    let deleteUsers = await taskLists.deleteTaskListUsers(taskListId);
-    // re-insert all of the updated users
-    let addUsers = await taskLists.addUsersToTaskList(taskListId, users);
-    res.send(addUsers);
+    let usersOld = await usersDAL.getUsersIdsByTaskList(taskListId, false);
+    let usersNew = _.difference(req.body.user_ids, admins); // remove admin users from list
+    // check which user to delete and which user to update
+    let usersToDelete = _.difference(usersOld, usersNew);
+    let usersToAdd = _.difference(usersNew, usersOld);
+    // delete deleted task list users - if needed
+    if (usersToDelete.length > 0) { await taskLists.deleteTaskListUsers(taskListId, usersToDelete); }
+    // insert new users - if needed
+    if (usersToAdd) { await taskLists.addUsersToTaskList(taskListId, usersToAdd, false); }
+    res.send({});
 });
 
 module.exports = router;

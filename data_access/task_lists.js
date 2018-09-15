@@ -73,11 +73,11 @@ function TaskList() {
     };
 
     // add a new users relation to task list
-    this.addUsersToTaskList = async function (taskListId, users) {
-        if (users.length > 0) {
+    this.addUsersToTaskList = async function (taskListId, user_ids, admin) {
+        if (user_ids.length > 0) {
             let query = "INSERT INTO " + taskListUsersTable + " (taskListId, userId, admin) VALUES ";
-            for (let i = 0, len = users.length; i < len; i++) {
-                query += "(" + taskListId + "," + users[i].id + "," + users[i].admin + ")";
+            for (let i = 0, len = user_ids.length; i < len; i++) {
+                query += "(" + taskListId + "," + user_ids[i] + "," + admin + ")";
                 query += i === len - 1 ? ';' : ','
             }
             return await pool.query(query)
@@ -91,8 +91,12 @@ function TaskList() {
     };
 
     // delete all of task list users
-    this.deleteTaskListUsers = async function (taskListId) {
-        return await pool.query("DELETE FROM " + taskListUsersTable + " WHERE taskListId = ?", taskListId)
+    this.deleteTaskListUsers = async function (taskListId, user_ids) {
+        let inlist = '';
+        for(let i=0; i<user_ids.length; i++) {
+            inlist += i === user_ids.length - 1 ? '?' : '?,';
+        }
+        return await pool.query("DELETE FROM " + taskListUsersTable + " WHERE taskListId = ? AND userId IN (" + inlist + ")", [taskListId, user_ids])
             .then(function(res) {
                 return {}
             })

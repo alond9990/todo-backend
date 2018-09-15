@@ -42,7 +42,11 @@ function User() {
 
     // get all users for a specific list
     this.getUsersIdsByTaskList = async function (taskListId, admin) {
-        let results = await pool.query("SELECT userId FROM " + taskListUsersTable + " WHERE taskListId = ? AND admin = ?",
+        let query = "SELECT userId FROM " + taskListUsersTable + " WHERE taskListId = ?";
+        if (admin === true || admin === false) {
+            query += " AND admin = ?"
+        }
+        let results = await pool.query(query,
             [taskListId, admin]);
         let user_ids = results.map(function(item) {
             return item.userId;
