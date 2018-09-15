@@ -1,0 +1,17 @@
+{
+  "database": {
+    "host": "localhost",
+    "user": "root",
+    "password": "Password1",
+    "connectionLimit": 10,
+    "database": "todo",
+    "debug": false
+  },
+  "JWT_SECRET": "111571F4B3DE83626B946E8BC",
+  "DB_TABLE_NAMES": {
+    "user": "user",
+    "task": "task",
+    "tasklist": "tasklist",
+    "user_tasklist": "user_tasklist"
+  }
+}
