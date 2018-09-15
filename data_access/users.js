@@ -11,7 +11,7 @@ function User() {
 
     // get all users
     this.getAllUsers = async function () {
-        let results = await pool.query("SELECT * FROM " + userTable);
+        let results = await pool.query("SELECT id, username FROM " + userTable);
         return results;
     };
 
