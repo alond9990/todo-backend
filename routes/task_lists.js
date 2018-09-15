@@ -4,6 +4,9 @@ const taskLists = require('../data_access/task_lists');
 const usersDAL = require('../data_access/users');
 const _ = require('lodash');
 
+const expressJoi = require('express-joi-validator');
+const validations = require('./validations/tasklist');
+
 /* GET task lists listings */
 router.get('/', async function(req, res, next) {
     let user_id = req.user.id;
@@ -12,14 +15,14 @@ router.get('/', async function(req, res, next) {
 });
 
 /* GET specific task list listing */
-router.get('/:id', async function(req, res, next) {
+router.get('/:id', expressJoi(validations.getOne), async function(req, res, next) {
     let taskListId = req.params.id;
     let task_list = await taskLists.getTaskListById(taskListId);
     res.send(task_list);
 });
 
 /* CREATE task list listing */
-router.post('/', async function(req, res, next) {
+router.post('/', expressJoi(validations.create), async function(req, res, next) {
     let name = req.body.name;
     let adminUserId = req.user.id;
     // create new task list
@@ -30,7 +33,7 @@ router.post('/', async function(req, res, next) {
 });
 
 /* grant permission to other user on a specific task list listing */
-router.put('/:id/users', async function(req, res, next) {
+router.put('/:id/users', expressJoi(validations.updateUsers), async function(req, res, next) {
     let taskListId = req.params.id;
     // get task list's admins
     let admins = await usersDAL.getUsersIdsByTaskList(taskListId, true);

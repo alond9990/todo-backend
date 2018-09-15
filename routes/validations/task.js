@@ -9,7 +9,7 @@ const create = {
 
 const markAsDone = {
     params: {
-        taskId: Joi.number().integer().required(),
+        id: Joi.number().integer().required(),
     }
 };
 
