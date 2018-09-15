@@ -36,11 +36,12 @@ function TaskList() {
             "Inner Join user_tasklist UT On UT.userID = U.id " +
             "Inner Join tasklist T On T.id = UT.taskListId " +
             "Where U.id = ?", userId);
-        let addTasksToLists = results.map(_setListTask);
-        await Promise.all(addTasksToLists);
 
+        let addTasksToLists = results.map(_setListTask);
         let addAdminsToLists = results.map(_setListAdmins);
-        await Promise.all(addAdminsToLists);
+        let addUsersToLists = results.map(_setListUsers);
+        let promises = addTasksToLists.concat(addAdminsToLists, addUsersToLists);
+        await Promise.all(promises);
 
         return results
     };
