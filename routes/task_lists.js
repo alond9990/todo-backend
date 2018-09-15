@@ -24,7 +24,7 @@ router.post('/', async function(req, res, next) {
     // create new task list
     let newTaskList = await taskLists.createTaskList(name);
     // add new admin to new task list
-    await taskLists.addUsersToTaskList(newTaskList.id, [adminUserId], true);
+    await taskLists.addUsersToTaskList(newTaskList.id, [{"id": adminUserId, "admin": true}]);
     res.send(newTaskList);
 });
 
@@ -32,7 +32,7 @@ router.post('/', async function(req, res, next) {
 router.put('/:id/users', async function(req, res, next) {
     let taskListId = req.params.id;
     // get task list's admins
-    let admins = await usersDAL.getAdminUsersIdsByTaskList(taskListId);
+    let admins = await usersDAL.getUsersIdsByTaskList(taskListId, true);
     // organize task list new users
     let users = req.body.user_ids.map(function(userId) {
         return {
