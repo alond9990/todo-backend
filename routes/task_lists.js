@@ -20,8 +20,11 @@ router.get('/:id', async function(req, res, next) {
 router.post('/', async function(req, res, next) {
     let name = req.body.name;
     let adminUserId = req.user.id;
-    let response = await taskLists.createTaskList(name, adminUserId);
-    res.send(response);
+    // create new task list
+    let newTaskList = await taskLists.createTaskList(name);
+    // add new admin to new task list
+    await  taskLists.addAdminToTaskList(newTaskList.id, adminUserId);
+    res.send(newTaskList);
 });
 
 /* grant permission to other user on a specific task list listing */

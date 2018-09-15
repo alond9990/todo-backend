@@ -8,6 +8,7 @@ const task = require('./tasks');
 function TaskList() {
 
     const taskListTable = 'tasklist';
+    const taskListUsersTable = 'user_tasklist';
 
     // add tasks to list object
     async function _setListTask (task_list) {
@@ -36,13 +37,28 @@ function TaskList() {
     };
 
     // create new task list
-    this.createTaskList = async function (name, adminUserId) {
-        return await pool.query("INSERT INTO " + taskListTable + " SET ?", {"name": name, "adminUserId": adminUserId})
+    this.createTaskList = async function (name) {
+        return await pool.query("INSERT INTO " + taskListTable + " SET ?", {"name": name})
             .then(function(res) {
                 return {
                     "id": res.insertId,
-                    "name": name,
-                    "adminUserId": adminUserId
+                    "name": name
+                }
+            })
+            .catch(function(err) {
+                return {
+                    "error": err.sqlMessage
+                }
+            });
+    };
+
+    // add a new admin user relation to task list
+    this.addAdminToTaskList = async function (taskListId, userId) {
+        return await pool.query("INSERT INTO " + taskListUsersTable + " SET ?",
+            {"userId": userId, "taskListId": taskListId, "admin": true})
+            .then(function(res) {
+                return {
+
                 }
             })
             .catch(function(err) {
