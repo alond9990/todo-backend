@@ -28,7 +28,7 @@ router.post('/', expressJoi(validations.create), async function(req, res, next) 
     // create new task list
     let newTaskList = await taskLists.createTaskList(name);
     // add new admin to new task list
-    await taskLists.addUsersToTaskList(newTaskList.id, [{"id": adminUserId, "admin": true}]);
+    await taskLists.addUsersToTaskList(newTaskList.id, [adminUserId], true);
     res.send(newTaskList);
 });
 
