@@ -4,6 +4,9 @@ const userDAL = require('../data_access/users');
 const bcrypt = require('bcrypt');
 const auth_helpers = require('../helpers/auth');
 
+const expressJoi = require('express-joi-validator');
+const validations = require('./validations/index');
+
 /* GET home page */
 router.get('/', function(req, res, next) {
     res.render('index', { title: 'Express' });
@@ -15,7 +18,7 @@ router.get('/verify', function(req, res, next) {
 });
 
 /* LOGIN endpoint */
-router.post('/login', async function(req, res, next) {
+router.post('/login',expressJoi(validations.validateLogin), async function(req, res, next) {
     let username = req.body.username;
     let password = req.body.password;
     await userDAL.getUserByUsername(username)
@@ -40,7 +43,7 @@ router.post('/login', async function(req, res, next) {
 });
 
 /* REGISTER endpoint */
-router.post('/register', function(req, res, next) {
+router.post('/register', expressJoi(validations.registerLogin), function(req, res, next) {
     let username = req.body.username;
     let password = req.body.password;
     // hash the password

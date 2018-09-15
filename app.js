@@ -42,6 +42,13 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
+//joi error handler
+app.use(function (err, req, res, next) {
+    if (err.isBoom) {
+        return res.status(err.output.statusCode).json(err.output.payload);
+    }
+});
+
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
