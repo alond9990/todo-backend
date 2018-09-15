@@ -3,10 +3,12 @@
  */
 
 const pool = require('./mysql_connection');
+const config = require('../config');
+const DB_TABLE_NAMES = config.getDBTableNames();
 
 function Task() {
 
-    const taskTable = 'task';
+    const taskTable = DB_TABLE_NAMES["task"];
 
     // create new task list
     this.createTask = async function (title, taskListId) {
@@ -17,7 +19,7 @@ function Task() {
         };
         return await pool.query("INSERT INTO " + taskTable + " SET ? ", task)
             .then(function(res) {
-                return {} //todo
+                return {}
             })
             .catch(function(err) {
                 return {

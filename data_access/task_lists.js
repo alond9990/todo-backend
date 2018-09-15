@@ -5,11 +5,13 @@
 const pool = require('./mysql_connection');
 const task = require('./tasks');
 const usersDAL = require('./users');
+const config = require('../config');
+const DB_TABLE_NAMES = config.getDBTableNames();
 
 function TaskList() {
 
-    const taskListTable = 'tasklist';
-    const taskListUsersTable = 'user_tasklist';
+    const taskListTable = DB_TABLE_NAMES["tasklist"];
+    const taskListUsersTable = DB_TABLE_NAMES["user_tasklist"];
 
     // add tasks to list object
     async function _setListTask (task_list) {

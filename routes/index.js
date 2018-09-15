@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const userDAL = require('../data_access/users');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const auth_helpers = require('../helpers/auth');
 
 /* GET home page */

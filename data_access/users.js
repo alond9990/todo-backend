@@ -3,11 +3,13 @@
  */
 
 const pool = require('./mysql_connection');
+const config = require('../config');
+const DB_TABLE_NAMES = config.getDBTableNames();
 
 function User() {
 
-    const userTable = 'user';
-    const taskListUsersTable = 'user_tasklist';
+    const userTable = DB_TABLE_NAMES["user"];
+    const taskListUsersTable = DB_TABLE_NAMES["user_tasklist"];
 
     // get all users
     this.getAllUsers = async function () {

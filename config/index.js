@@ -11,3 +11,7 @@ module.exports.getDatabaseConfig = function () {
 module.exports.getJWTSecret = function () {
     return configs.JWT_SECRET;
 };
+
+module.exports.getDBTableNames = function () {
+    return configs.DB_TABLE_NAMES;
+};
