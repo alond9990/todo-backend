@@ -65,21 +65,32 @@ function TaskList() {
     };
 
     // add a new users relation to task list
-    this.addUsersToTaskList = async function (taskListId, user_ids, admin) {
-        if (user_ids.length > 0) {
-        let query = "INSERT INTO " + taskListUsersTable + " (taskListId, userId, admin) VALUES ";
-        for (let i = 0, len = user_ids.length; i < len; i++) {
-            query += "(" + taskListId + "," + user_ids[i] + "," + admin + ")";
-            query += i === len - 1 ? ';' : ','
+    this.addUsersToTaskList = async function (taskListId, users) {
+        if (users.length > 0) {
+            let query = "INSERT INTO " + taskListUsersTable + " (taskListId, userId, admin) VALUES ";
+            for (let i = 0, len = users.length; i < len; i++) {
+                query += "(" + taskListId + "," + users[i].id + "," + users[i].admin + ")";
+                query += i === len - 1 ? ';' : ','
+            }
+            return await pool.query(query)
+                .then(function(res) {
+                    return {}
+                })
+                .catch(function(err) {
+                    return {"error": err.sqlMessage}
+                });
         }
-        return await pool.query(query)
+    };
+
+    // delete all of task list users
+    this.deleteTaskListUsers = async function (taskListId) {
+        return await pool.query("DELETE FROM " + taskListUsersTable + " WHERE taskListId = ?", taskListId)
             .then(function(res) {
                 return {}
             })
             .catch(function(err) {
                 return {"error": err.sqlMessage}
             });
-        }
     };
 
 

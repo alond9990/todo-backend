@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const taskLists = require('../data_access/task_lists');
+const usersDAL = require('../data_access/users');
 
 /* GET task lists listings */
 router.get('/', async function(req, res, next) {
@@ -28,11 +29,22 @@ router.post('/', async function(req, res, next) {
 });
 
 /* grant permission to other user on a specific task list listing */
-router.post('/:id/grant_permission', async function(req, res, next) {
+router.put('/:id/users', async function(req, res, next) {
     let taskListId = req.params.id;
-    let user_ids = req.body.user_ids;
-    let response = await taskLists.addUsersToTaskList(taskListId, user_ids, false);
-    res.send(response);
+    // get task list's admins
+    let admins = await usersDAL.getAdminUsersIdsByTaskList(taskListId);
+    // organize task list new users
+    let users = req.body.user_ids.map(function(userId) {
+        return {
+            "id": userId,
+            "admin": admins.indexOf(userId) !== -1
+        }
+    });
+    // delete all task list users
+    let deleteUsers = await taskLists.deleteTaskListUsers(taskListId);
+    // re-insert all of the updated users
+    let addUsers = await taskLists.addUsersToTaskList(taskListId, users);
+    res.send(addUsers);
 });
 
 module.exports = router;
