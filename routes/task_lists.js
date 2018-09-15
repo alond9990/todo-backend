@@ -31,7 +31,8 @@ router.post('/', async function(req, res, next) {
 router.post('/:id/grant_permission', async function(req, res, next) {
     let taskListId = req.params.id;
     let user_ids = req.body.user_ids;
-    await taskLists.addUsersToTaskList(taskListId, user_ids, false);
+    let response = await taskLists.addUsersToTaskList(taskListId, user_ids, false);
+    res.send(response);
 });
 
 module.exports = router;

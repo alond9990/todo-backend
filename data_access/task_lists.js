@@ -69,7 +69,8 @@ function TaskList() {
         if (user_ids.length > 0) {
         let query = "INSERT INTO " + taskListUsersTable + " (taskListId, userId, admin) VALUES ";
         for (let i = 0, len = user_ids.length; i < len; i++) {
-            query += "(" + taskListId + "," + user_ids[i] + "," + admin + ")"
+            query += "(" + taskListId + "," + user_ids[i] + "," + admin + ")";
+            query += i === len - 1 ? ';' : ','
         }
         return await pool.query(query)
             .then(function(res) {
