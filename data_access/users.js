@@ -40,14 +40,14 @@ function User() {
             });
     };
 
-    // get all task lists for a specific user
-    this.getAdminUsersIdsByTaskList = async function (taskListId) {
+    // get all users for a specific list
+    this.getUsersIdsByTaskList = async function (taskListId, admin) {
         let results = await pool.query("SELECT userId FROM " + taskListUsersTable + " WHERE taskListId = ? AND admin = ?",
-            [taskListId, true]);
-        let admin_ids = results.map(function(item) {
+            [taskListId, admin]);
+        let user_ids = results.map(function(item) {
             return item.userId;
         });
-        return admin_ids
+        return user_ids
     };
 
 }

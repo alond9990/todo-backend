@@ -17,9 +17,15 @@ function TaskList() {
         return task_list;
     }
 
-    // add tasks to list object
+    // add admins to list object
     async function _setListAdmins (task_list) {
-        task_list.admins = await usersDAL.getAdminUsersIdsByTaskList(task_list.id);
+        task_list.admins = await usersDAL.getUsersIdsByTaskList(task_list.id, true);
+        return task_list;
+    }
+
+    // add users to list object
+    async function _setListUsers (task_list) {
+        task_list.users = await usersDAL.getUsersIdsByTaskList(task_list.id, false);
         return task_list;
     }
 
@@ -44,6 +50,7 @@ function TaskList() {
         let results = await pool.query("SELECT * FROM " + taskListTable + " WHERE id = ?", taskListId);
         let task_list = _setListTask(results[0]);
         task_list = _setListAdmins(task_list);
+        task_list = _setListUsers(task_list);
         return task_list;
 
     };
