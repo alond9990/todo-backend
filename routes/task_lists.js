@@ -23,13 +23,15 @@ router.post('/', async function(req, res, next) {
     // create new task list
     let newTaskList = await taskLists.createTaskList(name);
     // add new admin to new task list
-    await  taskLists.addAdminToTaskList(newTaskList.id, adminUserId);
+    await taskLists.addUsersToTaskList(newTaskList.id, [adminUserId], true);
     res.send(newTaskList);
 });
 
 /* grant permission to other user on a specific task list listing */
 router.post('/:id/grant_permission', async function(req, res, next) {
+    let taskListId = req.params.id;
     let user_ids = req.body.user_ids;
+    await taskLists.addUsersToTaskList(taskListId, user_ids, false);
 });
 
 module.exports = router;

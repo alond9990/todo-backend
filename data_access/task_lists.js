@@ -52,21 +52,24 @@ function TaskList() {
             });
     };
 
-    // add a new admin user relation to task list
-    this.addAdminToTaskList = async function (taskListId, userId) {
-        return await pool.query("INSERT INTO " + taskListUsersTable + " SET ?",
-            {"userId": userId, "taskListId": taskListId, "admin": true})
+    // add a new users relation to task list
+    this.addUsersToTaskList = async function (taskListId, user_ids, admin) {
+        if (user_ids.length > 0) {
+        let query = "INSERT INTO " + taskListUsersTable + " (taskListId, userId, admin) VALUES ";
+        for (let i = 0, len = user_ids.length; i < len; i++) {
+            query += "(" + taskListId + "," + user_ids[i] + "," + admin + ")"
+        }
+        return await pool.query(query)
             .then(function(res) {
-                return {
-
-                }
+                return {}
             })
             .catch(function(err) {
-                return {
-                    "error": err.sqlMessage
-                }
+                return {"error": err.sqlMessage}
             });
+        }
     };
+
+
 
 }
 
