@@ -7,6 +7,7 @@ const pool = require('./mysql_connection');
 function User() {
 
     const userTable = 'user';
+    const taskListUsersTable = 'user_tasklist';
 
     // get all users
     this.getAllUsers = async function () {
@@ -37,6 +38,16 @@ function User() {
             .catch(function(err) {
                 throw new Error(err.sqlMessage);
             });
+    };
+
+    // get all task lists for a specific user
+    this.getAdminUsersIdsByTaskList = async function (taskListId) {
+        let results = await pool.query("SELECT userId FROM " + taskListUsersTable + " WHERE taskListId = ? AND admin = ?",
+            [taskListId, true]);
+        let admin_ids = results.map(function(item) {
+            return item.userId;
+        });
+        return admin_ids
     };
 
 }
