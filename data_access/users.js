@@ -8,6 +8,12 @@ function User() {
 
     const userTable = 'user';
 
+    // get all users
+    this.getAllUsers = async function () {
+        let results = await pool.query("SELECT * FROM " + userTable);
+        return results;
+    };
+
     // get specific user by credentials
     this.getUserByUsername = async function (username) {
         let results = await pool.query("SELECT * FROM " + userTable + " WHERE username = ?", username);

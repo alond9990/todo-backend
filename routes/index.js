@@ -10,6 +10,11 @@ router.get('/', function(req, res, next) {
     res.render('index', { title: 'Express' });
 });
 
+/* Verify token endpoint */
+router.get('/verify', function(req, res, next) {
+    res.status(200).send({});
+});
+
 /* LOGIN endpoint */
 router.post('/login', async function(req, res, next) {
     let username = req.body.username;
